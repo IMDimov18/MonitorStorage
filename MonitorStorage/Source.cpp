@@ -10,15 +10,15 @@ struct Monitors
 		string manufacturer;
 		string model;
 		string color;
-		float price;
-		float size;
+		float price=0;
+		float size=0;
 		string resolution;
 		bool tvTuner=false;
 		string type;
 		string status = "Selling";
 };
 
-void showMonitors(Monitors m[],int n)
+void showMonitors(Monitors m[])
 {
 	cout << "Id" << setw(15)
 		<< "Manufacturer" << setw(10)
@@ -30,7 +30,7 @@ void showMonitors(Monitors m[],int n)
 		<< "TV Tuner" << setw(10)
 		<< "Type" << setw(10)
 		<< "Status" << endl;
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < N; i++)
 	{
 		cout << m[i].id << setw(10)
 			<< m[i].manufacturer << setw(10)
@@ -52,12 +52,12 @@ void showMonitors(Monitors m[],int n)
 	}
 }
 
-void enterMonitor(Monitors m[], int n)
+void enterMonitor(Monitors m[])
 {
 	string temp,temp1="Yes";
 	int res;
 	int ide = 1;
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i <= N; i++)
 	{
 		m[i].id = ide;
 		ide++;
@@ -89,10 +89,31 @@ void enterMonitor(Monitors m[], int n)
 	}
 }
 
+void ShowBiggestMonitor(Monitors m[])
+{
+	int index = 0;
+	float bigM = m[0].size;
+	for (int i = 0; i <= N; i++)
+	{
+		if (m[i].size > bigM)
+		{
+			bigM = m[i].size;
+			index = i;
+		}
+	}
+
+	cout << "The biggest size monitor in store is: " << endl;
+
+	cout << m[index].id << setw(10)
+		<< m[index].manufacturer << setw(10)
+		<< m[index].model << setw(10)
+		<< m[index].price << '$' << setw(10)
+		<< m[index].size << "\"" << endl;
+}
+
 void showMainMenu(Monitors m[])
 {
 	int choice;
-	int n;
 	do
 	{
 		cout << "1. Enter Monitor" << endl;
@@ -108,13 +129,13 @@ void showMainMenu(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			cout << "How many monitors do you want to enter?: "; cin >> n; cin.ignore(1000, '\n');
-			enterMonitor(m, n);
+			enterMonitor(m);
 			break;
 		case 2:
-			showMonitors(m, n);
+			showMonitors(m);
 			break;
 		case 3:
+			ShowBiggestMonitor(m);
 			break;
 		case 4:
 			break;
