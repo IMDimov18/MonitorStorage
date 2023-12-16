@@ -2,11 +2,11 @@
 #include <string>
 #include <iomanip>
 using namespace std;
-const int N = 100;
+const int N = 2;
 
 struct Monitors
 {
-	int id;
+		int id=0;
 		string manufacturer;
 		string model;
 		string color;
@@ -20,7 +20,7 @@ struct Monitors
 
 void showMonitors(Monitors m[],int n)
 {
-	cout << "Id" << setw(10)
+	cout << "Id" << setw(15)
 		<< "Manufacturer" << setw(10)
 		<< "Model" << setw(10)
 		<< "Color" << setw(10)
@@ -30,24 +30,24 @@ void showMonitors(Monitors m[],int n)
 		<< "TV Tuner" << setw(10)
 		<< "Type" << setw(10)
 		<< "Status" << endl;
-	for (int i = 0; i < n; i++)
+	for (int i = 1; i <= n; i++)
 	{
-		cout << m[i].id << setw(20)
-			<< m[i].manufacturer << setw(20)
-			<< m[i].model << setw(20)
-			<< m[i].color << setw(20)
-			<< m[i].price << '$' << setw(20)
-			<< m[i].size << "\"" << setw(20)
-			<< m[i].resolution << setw(20);
+		cout << m[i].id << setw(10)
+			<< m[i].manufacturer << setw(10)
+			<< m[i].model << setw(10)
+			<< m[i].color << setw(10)
+			<< m[i].price << '$' << setw(10)
+			<< m[i].size << "\"" << setw(10)
+			<< m[i].resolution << setw(10);
 		if (m[i].tvTuner == true)
 		{
-			cout << "Yes" << setw(20);
+			cout << "Yes" << setw(10);
 		}
 		else
 		{
-			cout << "No" << setw(20);
+			cout << "No" << setw(10);
 		}
-		cout << m[i].type << setw(20)
+		cout << m[i].type << setw(10)
 			<< m[i].status << endl;
 	}
 }
@@ -56,9 +56,12 @@ void enterMonitor(Monitors m[], int n)
 {
 	string temp,temp1="Yes";
 	int res;
+	int ide = 1;
 	for (int i = 1; i <= n; i++)
 	{
-		m[i].id = i;
+		m[i].id = ide;
+		ide++;
+
 		cout<<endl << "Monitor's Manufacturer: ";
 		getline(cin, m[i].manufacturer);
 		cout << endl << "Monitor's Model: ";
@@ -69,6 +72,7 @@ void enterMonitor(Monitors m[], int n)
 		cin >> m[i].price;
 		cout << endl << "Monitor's Display: ";
 		cin >> m[i].size;
+		cin.ignore(1000, '\n');
 		cout << endl << "Monitor's Rezolution: ";
 		getline(cin, m[i].resolution);
 		cout << "Does it have a TV Tuner?: ";
@@ -99,11 +103,12 @@ void showMainMenu(Monitors m[])
 		cout << "0. Exit" << endl;
 		cout << "Your choice:";
 		cin >> choice;
+		cin.ignore(1000, '\n');
 
 		switch (choice)
 		{
 		case 1:
-			cout << "How many monitors do you want to enter?: "; cin >> n;
+			cout << "How many monitors do you want to enter?: "; cin >> n; cin.ignore(1000, '\n');
 			enterMonitor(m, n);
 			break;
 		case 2:
