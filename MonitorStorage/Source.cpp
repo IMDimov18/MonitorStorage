@@ -4,7 +4,7 @@
 #include <fstream>
 #include <stdlib.h>
 using namespace std;
-const int N = 1;
+const int N = 2;
 
 struct Monitors
 {
@@ -58,11 +58,9 @@ void enterMonitor(Monitors m[])
 {
 	string temp, temp1 = "Yes";
 	int res;
-	int ide = 1;
 	for (int i = 0; i < N; i++)
 	{
-		m[i].id = ide;
-		ide++;
+		m[i].id = rand() % 100 + 1;
 
 		cout << endl << "Monitor's Manufacturer: ";
 		getline(cin, m[i].manufacturer);
@@ -221,10 +219,30 @@ void saveMonitorsInFile(Monitors m[])
 			<< m[i].color << setw(10)
 			<< m[i].price << '$' << setw(10)
 			<< m[i].size << "\"" << setw(10)
-			<< m[i].resolution << setw(10);
+			<< m[i].resolution << '\n';
 	}
 
 	fs.close();
+	cout << "Data succesfully saved in file!" << endl;
+}
+
+void showMonitorsFromFile(Monitors m[])
+{
+	ifstream ifs;
+	char next;
+	ifs.open("Monitors.txt", ios::in);
+	if (ifs.fail())
+	{
+		cout << "The file could not be opened" << endl;
+		exit(1);
+	}
+	ifs.get(next);
+	while (!ifs.eof())
+	{
+		cout << next;
+		ifs.get(next);
+	}
+	ifs.close();
 }
 
 
@@ -238,7 +256,7 @@ void showMainMenu(Monitors m[])
 		cout << "3. Search Monitor" << endl;
 		cout << "4. Sort Monitors By Price" << endl;
 		cout << "5. Save Monitors In File" << endl;
-		cout << "5. Show Monitors From File" << endl;
+		cout << "6. Show Monitors From File" << endl;
 		cout << "0. Exit" << endl;
 		cout << "Your choice:";
 		cin >> choice;
@@ -260,6 +278,9 @@ void showMainMenu(Monitors m[])
 			break;
 		case 5:
 			saveMonitorsInFile(m);
+			break;
+		case 6:
+			showMonitorsFromFile(m);
 			break;
 		case 0:
 			break;
