@@ -22,35 +22,49 @@ struct Monitors
 
 void showMonitors(Monitors m[])
 {
-	cout << "Id" << setw(15)
-		<< "Manufacturer" << setw(10)
-		<< "Model" << setw(10)
-		<< "Color" << setw(10)
-		<< "Price" << setw(10)
-		<< "Display" << setw(10)
-		<< "Resolution" << setw(10)
-		<< "TV Tuner" << setw(10)
-		<< "Type" << setw(10)
+	cout << "Id" << ' '
+		<< "Manufacturer" << ' '
+		<< "Model" << ' '
+		<< "Color" << ' '
+		<< "Price" << ' '
+		<< "Display" << ' '
+		<< "Resolution" << ' '
+		<< "TV Tuner" << ' '
+		<< "Type" << ' '
 		<< "Status" << endl;
 	for (int i = 0; i < N; i++)
 	{
-		cout << m[i].id << setw(10)
-			<< m[i].manufacturer << setw(10)
-			<< m[i].model << setw(10)
-			<< m[i].color << setw(10)
-			<< m[i].price << '$' << setw(10)
-			<< m[i].size << "\"" << setw(10)
-			<< m[i].resolution << setw(10);
+		cout << m[i].id << ' '
+			<< m[i].manufacturer << ' '
+			<< m[i].model << ' '
+			<< m[i].color << ' '
+			<< m[i].price << '$' << ' '
+			<< m[i].size << "\"" << ' '
+			<< m[i].resolution << ' ';
 		if (m[i].tvTuner == true)
 		{
-			cout << "Yes" << setw(10);
+			cout << "Yes" << ' ';
 		}
 		else
 		{
-			cout << "No" << setw(10);
+			cout << "No" << ' ';
 		}
-		cout << m[i].type << setw(10)
+		cout << m[i].type << ' '
 			<< m[i].status << endl;
+	}
+}
+
+void checkId(Monitors m[])
+{
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			if (m[i].id==m[j].id)
+			{
+				m[j].id = rand() % 100 + 1;
+			}
+		}
 	}
 }
 
@@ -61,6 +75,7 @@ void enterMonitor(Monitors m[])
 	for (int i = 0; i < N; i++)
 	{
 		m[i].id = rand() % 100 + 1;
+		checkId(m);
 
 		cout << endl << "Monitor's Manufacturer: ";
 		getline(cin, m[i].manufacturer);
@@ -104,10 +119,10 @@ void ShowBiggestMonitor(Monitors m[])
 
 	cout << "The biggest size monitor in store is: " << endl;
 
-	cout << m[index].id << setw(10)
-		<< m[index].manufacturer << setw(10)
-		<< m[index].model << setw(10)
-		<< m[index].price << '$' << setw(10)
+	cout << m[index].id << ' '
+		<< m[index].manufacturer << ' '
+		<< m[index].model << ' '
+		<< m[index].price << '$' << ' '
 		<< m[index].size << "\"" << endl;
 }
 
@@ -117,37 +132,37 @@ void searchMonitor(Monitors m[])
 	cout << "Enter the brand of the monitors you want to see: ";
 	getline(cin, temp);
 
-	cout << endl << "Id" << setw(15)
-		<< "Manufacturer" << setw(10)
-		<< "Model" << setw(10)
-		<< "Color" << setw(10)
-		<< "Price" << setw(10)
-		<< "Display" << setw(10)
-		<< "Resolution" << setw(10)
-		<< "TV Tuner" << setw(10)
-		<< "Type" << setw(10)
+	cout << endl << "Id" << ' '
+		<< "Manufacturer" << ' '
+		<< "Model" << ' '
+		<< "Color" << ' '
+		<< "Price" << ' '
+		<< "Display" << ' '
+		<< "Resolution" << ' '
+		<< "TV Tuner" << ' '
+		<< "Type" << ' '
 		<< "Status" << endl;
 
 	for (int i = 0; i < N; i++)
 	{
 		if (temp == m[i].manufacturer)
 		{
-			cout << m[i].id << setw(10)
-				<< m[i].manufacturer << setw(10)
-				<< m[i].model << setw(10)
-				<< m[i].color << setw(10)
-				<< m[i].price << '$' << setw(10)
-				<< m[i].size << "\"" << setw(10)
-				<< m[i].resolution << setw(10);
+			cout << m[i].id << ' '
+				<< m[i].manufacturer << ' '
+				<< m[i].model << ' '
+				<< m[i].color << ' '
+				<< m[i].price << '$' << ' '
+				<< m[i].size << "\"" << ' '
+				<< m[i].resolution << ' ';
 			if (m[i].tvTuner == true)
 			{
-				cout << "Yes" << setw(10);
+				cout << "Yes" << ' ';
 			}
 			else
 			{
-				cout << "No" << setw(10);
+				cout << "No" << ' ';
 			}
-			cout << m[i].type << setw(10)
+			cout << m[i].type << ' '
 				<< m[i].status << endl;
 		}
 	}
@@ -183,7 +198,7 @@ void showSearchMenu(Monitors m[])
 	} while (choice != 0);
 }
 
-void sortMonitors(Monitors m[])
+void sortMonitorsByPrice(Monitors m[])
 {
 	Monitors temp;
 
@@ -213,17 +228,59 @@ void saveMonitorsInFile(Monitors m[])
 
 	for (int i = 0; i < N; i++)
 	{
-		fs << m[i].id << setw(10)
-			<< m[i].manufacturer << setw(10)
-			<< m[i].model << setw(10)
-			<< m[i].color << setw(10)
-			<< m[i].price << '$' << setw(10)
-			<< m[i].size << "\"" << setw(10)
-			<< m[i].resolution << '\n';
+		fs << m[i].id << ' '
+			<< m[i].manufacturer << ' '
+			<< m[i].model << ' '
+			<< m[i].color << ' '
+			<< m[i].price << '$' << ' '
+			<< m[i].size << "\"" << ' '
+			<< m[i].resolution << ' '
+			<<m[i].type<<' '
+			<< m[i].status<<'\n';
 	}
 
 	fs.close();
 	cout << "Data succesfully saved in file!" << endl;
+}
+
+int checkFileElements()
+{
+	ifstream ifs;
+	int count = 0;
+	char next;
+	ifs.open("Monitors.txt", ios::in);
+	ifs.get(next);
+	while (!ifs.eof())
+	{
+		if (next=='\n')
+		{
+			count++;
+		}
+		ifs.get(next);
+	}
+	ifs.close();
+	return count;
+	
+}
+
+void inportMonitorsFromFile(Monitors m[])
+{
+	ifstream ifs;
+	int numberOfElements = checkFileElements();
+	ifs.open("Monitors.txt", ios::in);
+	if (ifs.fail())
+	{
+		cout << "The file could not be opened" << endl;
+		exit(1);
+	}
+
+	for (int i = 0; i < N; i++)
+	{
+		ifs >> m[i].id >> m[i].manufacturer >> m[i].model >> m[i].color >> m[i].price >> m[i].size >> m[i].size >> m[i].resolution >> m[i].type >> m[i].status;
+	}
+
+	ifs.close();
+
 }
 
 void showMonitorsFromFile(Monitors m[])
@@ -257,6 +314,7 @@ void showMainMenu(Monitors m[])
 		cout << "4. Sort Monitors By Price" << endl;
 		cout << "5. Save Monitors In File" << endl;
 		cout << "6. Show Monitors From File" << endl;
+		cout << "7. Inport Monitors From File" << endl;
 		cout << "0. Exit" << endl;
 		cout << "Your choice:";
 		cin >> choice;
@@ -274,13 +332,16 @@ void showMainMenu(Monitors m[])
 			showSearchMenu(m);
 			break;
 		case 4:
-			sortMonitors(m);
+			sortMonitorsByPrice(m);
 			break;
 		case 5:
 			saveMonitorsInFile(m);
 			break;
 		case 6:
 			showMonitorsFromFile(m);
+			break;
+		case 7:
+			inportMonitorsFromFile(m);
 			break;
 		case 0:
 			break;
