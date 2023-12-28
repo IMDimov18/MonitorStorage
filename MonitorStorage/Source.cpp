@@ -20,8 +20,23 @@ struct Monitors
 	string status = "Selling";
 };
 
-void showMonitors(Monitors m[])
+void showMonitorsByManufacturer(Monitors m[])
 {
+	Monitors temp;
+
+	for (int i = 0; i < N - 1; i++)
+	{
+		for (int j = 0; j < N - i - 1; j++)
+		{
+			if (m[j].manufacturer > m[j + 1].manufacturer)
+			{
+				temp = m[j];
+				m[j] = m[j + 1];
+				m[j + 1] = temp;
+			}
+		}
+	}
+
 	cout << "Id" << ' '
 		<< "Manufacturer" << ' '
 		<< "Model" << ' '
@@ -52,6 +67,104 @@ void showMonitors(Monitors m[])
 		cout << m[i].type << ' '
 			<< m[i].status << endl;
 	}
+
+}
+
+void showMonitorsBySize(Monitors m[])
+{
+	Monitors tempArr[N];
+	int count = 0;
+
+	float val;
+
+	cout << "Select the size you want to see: ";
+	cin >> val;
+	cin.ignore(1000, '\n');
+
+	for (int i = 0; i < N; i++)
+	{
+		if (m[i].size==val)
+		{
+			tempArr[count] = m[i];
+			count++;
+		}
+	}
+
+	Monitors temp;
+
+	for (int i = 0; i < count - 1; i++)
+	{
+		for (int j = 0; j < count - i - 1; j++)
+		{
+			if (tempArr[j].manufacturer > tempArr[j + 1].manufacturer)
+			{
+				temp = tempArr[j];
+				tempArr[j] = tempArr[j + 1];
+				tempArr[j + 1] = temp;
+			}
+		}
+	}
+
+	cout << "Id" << ' '
+		<< "Manufacturer" << ' '
+		<< "Model" << ' '
+		<< "Color" << ' '
+		<< "Price" << ' '
+		<< "Display" << ' '
+		<< "Resolution" << ' '
+		<< "TV Tuner" << ' '
+		<< "Type" << ' '
+		<< "Status" << endl;
+	for (int i = 0; i < N; i++)
+	{
+		cout << tempArr[i].id << ' '
+			<< tempArr[i].manufacturer << ' '
+			<< tempArr[i].model << ' '
+			<< tempArr[i].color << ' '
+			<< tempArr[i].price << '$' << ' '
+			<< tempArr[i].size << "\"" << ' '
+			<< tempArr[i].resolution << ' ';
+		if (tempArr[i].tvTuner == true)
+		{
+			cout << "Yes" << ' ';
+		}
+		else
+		{
+			cout << "No" << ' ';
+		}
+		cout << tempArr[i].type << ' '
+			<< tempArr[i].status << endl;
+	}
+
+}
+
+void showMonitors(Monitors m[])
+{
+	int choice;
+	do
+	{
+		cout << "1. Show Monitors by manufacturer" << endl;
+		cout << "2. Show Monitors by chosen size" << endl;
+		cout << "0. Back" << endl;
+		cout << "Your choice: ";
+		cin >> choice;
+		cin.ignore(1000, '\n');
+
+		switch (choice)
+		{
+		case 1:
+			showMonitorsByManufacturer(m);
+			break;
+		case 2:
+			showMonitorsBySize(m);
+			break;
+		default:
+			cout << "There is no option corresponding to your choice!" << endl;
+			break;
+		}
+		
+
+	} while (choice !=0);
 }
 
 void checkId(Monitors m[])
@@ -277,6 +390,7 @@ void inportMonitorsFromFile(Monitors m[])
 	for (int i = 0; i < N; i++)
 	{
 		ifs >> m[i].id >> m[i].manufacturer >> m[i].model >> m[i].color >> m[i].price >> m[i].size >> m[i].size >> m[i].resolution >> m[i].type >> m[i].status;
+		ifs.ignore(1000, '\n');
 	}
 
 	ifs.close();
@@ -300,6 +414,11 @@ void showMonitorsFromFile(Monitors m[])
 		ifs.get(next);
 	}
 	ifs.close();
+}
+
+void editEntry(Monitors m[])
+{
+	
 }
 
 
