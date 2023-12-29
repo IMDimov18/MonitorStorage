@@ -15,7 +15,7 @@ struct Monitors
 	float price = 0;
 	float size = 0;
 	string resolution;
-	bool tvTuner = false;
+	string tvTuner;
 	string type;
 	string status = "Selling";
 };
@@ -55,16 +55,9 @@ void showMonitorsByManufacturer(Monitors m[])
 			<< m[i].color << ' '
 			<< m[i].price << '$' << ' '
 			<< m[i].size << "\"" << ' '
-			<< m[i].resolution << ' ';
-		if (m[i].tvTuner == true)
-		{
-			cout << "Yes" << ' ';
-		}
-		else
-		{
-			cout << "No" << ' ';
-		}
-		cout << m[i].type << ' '
+			<< m[i].resolution << ' '
+			<<m[i].tvTuner<<' '
+		<< m[i].type << ' '
 			<< m[i].status << endl;
 	}
 
@@ -117,23 +110,16 @@ void showMonitorsBySize(Monitors m[])
 		<< "Status" << endl;
 	for (int i = 0; i < N; i++)
 	{
-		cout << tempArr[i].id << ' '
-			<< tempArr[i].manufacturer << ' '
-			<< tempArr[i].model << ' '
-			<< tempArr[i].color << ' '
-			<< tempArr[i].price << '$' << ' '
-			<< tempArr[i].size << "\"" << ' '
-			<< tempArr[i].resolution << ' ';
-		if (tempArr[i].tvTuner == true)
-		{
-			cout << "Yes" << ' ';
-		}
-		else
-		{
-			cout << "No" << ' ';
-		}
-		cout << tempArr[i].type << ' '
-			<< tempArr[i].status << endl;
+		cout << m[i].id << ' '
+			<< m[i].manufacturer << ' '
+			<< m[i].model << ' '
+			<< m[i].color << ' '
+			<< m[i].price << '$' << ' '
+			<< m[i].size << "\"" << ' '
+			<< m[i].resolution << ' '
+			<< m[i].tvTuner << ' '
+			<< m[i].type << ' '
+			<< m[i].status << endl;
 	}
 
 }
@@ -204,16 +190,11 @@ void enterMonitor(Monitors m[])
 		cout << endl << "Monitor's Rezolution: ";
 		getline(cin, m[i].resolution);
 		cout << "Does it have a TV Tuner?: ";
-		getline(cin, temp);
+		getline(cin, m[i].tvTuner);
 		cout << "What is it's type?(New, Second-hand): ";
 		getline(cin, m[i].type);
 
 
-		res = temp.compare(temp1);
-		if (res == 0)
-		{
-			m[i].tvTuner = true;
-		}
 	}
 }
 
@@ -266,16 +247,9 @@ void searchMonitor(Monitors m[])
 				<< m[i].color << ' '
 				<< m[i].price << '$' << ' '
 				<< m[i].size << "\"" << ' '
-				<< m[i].resolution << ' ';
-			if (m[i].tvTuner == true)
-			{
-				cout << "Yes" << ' ';
-			}
-			else
-			{
-				cout << "No" << ' ';
-			}
-			cout << m[i].type << ' '
+				<< m[i].resolution << ' '
+				<< m[i].tvTuner << ' '
+				<< m[i].type << ' '
 				<< m[i].status << endl;
 		}
 	}
@@ -425,17 +399,90 @@ void editByMan(Monitors m[])
 	string manTemp;
 	string modelTemp;
 	bool flag=false;
+	int currentId;
+	int choice;
 
 	cout << "Enter the manudacturer and model of the monitor you want to edit" << endl;
 	cout << "Manudacturer: "; getline(cin, manTemp);
 	cout << endl << "Model: "; getline(cin, modelTemp);
+	cout << endl;
 
 	for (int i = 0; i < N; i++)
 	{
 		if (manTemp==m[i].manufacturer&&modelTemp==m[i].model)
 		{
 			flag = true;
+			currentId = i;
+			break;
 		}
+	}
+
+	if (flag)
+	{
+		do
+		{
+			cout << "What do you want to change?" << endl;
+			cout << "1. Serial Number" << endl;
+			cout << "2. Manufacturer" << endl;
+			cout << "3. Model" << endl;
+			cout << "4. Color" << endl;
+			cout << "5. Price" << endl;
+			cout << "6. Size" << endl;
+			cout << "7. Resolution" << endl;
+			cout << "8. TV Tunner" << endl;
+			cout << "9. Type" << endl;
+			cout << "10. Status" << endl;
+			cout << "0. Back" << endl;
+			cout << "Your choice: ";
+			cin >> choice;
+			cin.ignore(1000, '\n');
+
+			switch (choice)
+			{
+			case 1:
+				cout << endl << "New Serial Number: ";
+				cin >> m[currentId].id;
+				cin.ignore(1000, '\n');
+				break;
+			case 2:
+				cout << endl << "New Manufacturer: ";
+				getline(cin, m[currentId].manufacturer);
+				break;
+			case 3:
+				cout << endl << "New Model: ";
+				getline(cin, m[currentId].model);
+				break;
+			case 4:
+				cout << endl << "New Color: ";
+				getline(cin, m[currentId].color);
+				break;
+			case 5:
+				cout << endl << "New Price: ";
+				cin >> m[currentId].price;
+				cin.ignore(1000, '\n');
+				break;
+			case 6:
+				cout << endl << "New Size: ";
+				cin >> m[currentId].size;
+				cin.ignore(1000, '\n');
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
+			case 10:
+				break;
+			case 0:
+				break;
+			default:
+				cout << "There is no option corresponding to your choice!" << endl;
+				break;
+			}
+
+
+		} while (true);
 	}
 }
 
@@ -450,6 +497,7 @@ void editEntry(Monitors m[])
 		cout << "2. Edit By Serial Number" << endl;
 		cout << "0. Back" << endl;
 		cout << "Your choice: ";
+		cin >> choice;
 		cin.ignore(1000, '\n');
 
 		switch (choice)
@@ -461,6 +509,7 @@ void editEntry(Monitors m[])
 		case 0:
 			break;
 		default:
+			cout << "There is no option corresponding to your choice!" << endl;
 			break;
 		}
 
