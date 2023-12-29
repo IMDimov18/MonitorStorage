@@ -302,6 +302,8 @@ void showSearchMenu(Monitors m[])
 		case 2:
 			searchMonitor(m);
 			break;
+		case 0:
+			break;
 		default:
 			cout << "There is no option corresponding to your choice!" << endl;
 			break;
@@ -389,6 +391,8 @@ void inportMonitorsFromFile(Monitors m[])
 
 	for (int i = 0; i < N; i++)
 	{
+		ifs.ignore(1000, '$');
+		ifs.ignore(1000, '"');
 		ifs >> m[i].id >> m[i].manufacturer >> m[i].model >> m[i].color >> m[i].price >> m[i].size >> m[i].size >> m[i].resolution >> m[i].type >> m[i].status;
 		ifs.ignore(1000, '\n');
 	}
@@ -416,9 +420,51 @@ void showMonitorsFromFile(Monitors m[])
 	ifs.close();
 }
 
+void editByMan(Monitors m[])
+{
+	string manTemp;
+	string modelTemp;
+	bool flag=false;
+
+	cout << "Enter the manudacturer and model of the monitor you want to edit" << endl;
+	cout << "Manudacturer: "; getline(cin, manTemp);
+	cout << endl << "Model: "; getline(cin, modelTemp);
+
+	for (int i = 0; i < N; i++)
+	{
+		if (manTemp==m[i].manufacturer&&modelTemp==m[i].model)
+		{
+			flag = true;
+		}
+	}
+}
+
 void editEntry(Monitors m[])
 {
-	
+
+	int choice;
+
+	do
+	{
+		cout << "1. Edit By Manufacturer and Model" << endl;
+		cout << "2. Edit By Serial Number" << endl;
+		cout << "0. Back" << endl;
+		cout << "Your choice: ";
+		cin.ignore(1000, '\n');
+
+		switch (choice)
+		{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 0:
+			break;
+		default:
+			break;
+		}
+
+	} while (choice !=0);
 }
 
 
