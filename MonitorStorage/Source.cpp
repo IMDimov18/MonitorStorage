@@ -490,12 +490,114 @@ void editByMan(Monitors m[])
 			}
 
 
-		} while (true);
+		} while (choice != 0);
+	}
+	else
+	{
+		cout << "There is not an item with these attributes in the list!" << endl;
 	}
 }
 
 void editBySerialNumber(Monitors m[])
-{}
+{
+	int id;
+	bool flag = false;
+	int currentId;
+	int choice;
+
+	cout << "Enter the serial number of the monitor you want to edit" << endl;
+	cin >> id;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (id==m[i].id)
+		{
+			flag = true;
+			currentId = i;
+			break;
+		}
+	}
+
+	if (flag)
+	{
+		do
+		{
+			cout << "What do you want to change?" << endl;
+			cout << "1. Serial Number" << endl;
+			cout << "2. Manufacturer" << endl;
+			cout << "3. Model" << endl;
+			cout << "4. Color" << endl;
+			cout << "5. Price" << endl;
+			cout << "6. Size" << endl;
+			cout << "7. Resolution" << endl;
+			cout << "8. TV Tunner" << endl;
+			cout << "9. Type" << endl;
+			cout << "10. Status" << endl;
+			cout << "0. Back" << endl;
+			cout << "Your choice: ";
+			cin >> choice;
+			cin.ignore(1000, '\n');
+
+			switch (choice)
+			{
+			case 1:
+				cout << endl << "New Serial Number: ";
+				cin >> m[currentId].id;
+				cin.ignore(1000, '\n');
+				break;
+			case 2:
+				cout << endl << "New Manufacturer: ";
+				getline(cin, m[currentId].manufacturer);
+				break;
+			case 3:
+				cout << endl << "New Model: ";
+				getline(cin, m[currentId].model);
+				break;
+			case 4:
+				cout << endl << "New Color: ";
+				getline(cin, m[currentId].color);
+				break;
+			case 5:
+				cout << endl << "New Price: ";
+				cin >> m[currentId].price;
+				cin.ignore(1000, '\n');
+				break;
+			case 6:
+				cout << endl << "New Size: ";
+				cin >> m[currentId].size;
+				cin.ignore(1000, '\n');
+				break;
+			case 7:
+				cout << endl << "New Resolution: ";
+				getline(cin, m[currentId].resolution);
+				break;
+			case 8:
+				cout << endl << "New TV Tunner status: ";
+				getline(cin, m[currentId].tvTuner);
+				break;
+			case 9:
+				cout << endl << "New Type: ";
+				getline(cin, m[currentId].type);
+				break;
+			case 10:
+				cout << endl << "New Status: ";
+				getline(cin, m[currentId].status);
+				break;
+			case 0:
+				break;
+			default:
+				cout << "There is no option corresponding to your choice!" << endl;
+				break;
+			}
+
+
+		} while (choice != 0);
+	}
+	else
+	{
+		cout << "There is not an item with these attributes in the list!" << endl;
+	}
+}
 
 void editEntry(Monitors m[])
 {
@@ -517,6 +619,7 @@ void editEntry(Monitors m[])
 			editByMan(m);
 			break;
 		case 2:
+			editBySerialNumber(m);
 			break;
 		case 0:
 			break;
