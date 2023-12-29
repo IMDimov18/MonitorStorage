@@ -4,7 +4,7 @@
 #include <fstream>
 #include <stdlib.h>
 using namespace std;
-const int N = 2;
+const int N = 1;
 
 struct Monitors
 {
@@ -599,6 +599,41 @@ void editBySerialNumber(Monitors m[])
 	}
 }
 
+void promotionalPrice(Monitors m[])
+{
+	int id;
+	bool flag = false;
+	int currentId;
+	float discount;
+
+	cout << "Enter the serial number of the desired monitor: ";
+	cin >> id;
+	cin.ignore(1000, '\n');
+	cout << endl;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (id==m[i].id)
+		{
+			currentId = i;
+			flag = true;
+			break;
+		}
+	}
+
+	if (flag)
+	{
+		cout << "Enter the discount(%): ";
+		cin >> discount;
+		m[currentId].price = m[currentId].price - (m[currentId].price * (discount / 100));
+		cout << "Price with discount: " << m[currentId].price << '$' << endl;
+	}
+	else
+	{
+		cout << "There is not an item with that serial number in the list!" << endl;
+	}
+}
+
 void editEntry(Monitors m[])
 {
 
@@ -608,6 +643,7 @@ void editEntry(Monitors m[])
 	{
 		cout << "1. Edit By Manufacturer and Model" << endl;
 		cout << "2. Edit By Serial Number" << endl;
+		cout << "3. Set a promotional price" << endl;
 		cout << "0. Back" << endl;
 		cout << "Your choice: ";
 		cin >> choice;
@@ -620,6 +656,9 @@ void editEntry(Monitors m[])
 			break;
 		case 2:
 			editBySerialNumber(m);
+			break;
+		case 3:
+			promotionalPrice(m);
 			break;
 		case 0:
 			break;
