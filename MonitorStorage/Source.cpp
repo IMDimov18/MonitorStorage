@@ -467,12 +467,20 @@ void editByMan(Monitors m[])
 				cin.ignore(1000, '\n');
 				break;
 			case 7:
+				cout << endl << "New Resolution: ";
+				getline(cin, m[currentId].resolution);
 				break;
 			case 8:
+				cout << endl << "New TV Tunner status: ";
+				getline(cin, m[currentId].tvTuner);
 				break;
 			case 9:
+				cout << endl << "New Type: ";
+				getline(cin, m[currentId].type);
 				break;
 			case 10:
+				cout << endl << "New Status: ";
+				getline(cin, m[currentId].status);
 				break;
 			case 0:
 				break;
@@ -485,6 +493,9 @@ void editByMan(Monitors m[])
 		} while (true);
 	}
 }
+
+void editBySerialNumber(Monitors m[])
+{}
 
 void editEntry(Monitors m[])
 {
@@ -503,6 +514,7 @@ void editEntry(Monitors m[])
 		switch (choice)
 		{
 		case 1:
+			editByMan(m);
 			break;
 		case 2:
 			break;
@@ -529,6 +541,7 @@ void showMainMenu(Monitors m[])
 		cout << "5. Save Monitors In File" << endl;
 		cout << "6. Show Monitors From File" << endl;
 		cout << "7. Inport Monitors From File" << endl;
+		cout << "8. Edit Entries" << endl;
 		cout << "0. Exit" << endl;
 		cout << "Your choice:";
 		cin >> choice;
@@ -557,6 +570,8 @@ void showMainMenu(Monitors m[])
 		case 7:
 			inportMonitorsFromFile(m);
 			break;
+		case 8:
+			editEntry(m);
 		case 0:
 			break;
 		default:
