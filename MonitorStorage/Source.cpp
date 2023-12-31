@@ -855,6 +855,7 @@ void showMainMenu(Monitors m[])
 		case 8:
 			editEntry(m);
 		case 9:
+			showBuyMenu(m);
 			break;
 		case 0:
 			break;
