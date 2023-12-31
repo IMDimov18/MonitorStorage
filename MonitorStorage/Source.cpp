@@ -670,6 +670,88 @@ void editEntry(Monitors m[])
 	} while (choice !=0);
 }
 
+void buyMonitor(Monitors m[])
+{
+	string man, model;
+	int id;
+	bool flag = false;
+	cout << "Please enter the Manufacturer and the Model of the desired monitor: ";
+	cout << endl << "Manufacturer: "; getline(cin, man);
+	cout << endl << "Model"; getline(cin, model);
+	cout << endl;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (man==m[i].manufacturer && model==m[i].model)
+		{
+			cout << m[i].id << ' '
+				<< m[i].manufacturer << ' '
+				<< m[i].model << ' '
+				<< m[i].color << ' '
+				<< m[i].price << '$' << ' '
+				<< m[i].size << "\"" << ' '
+				<< m[i].resolution << ' '
+				<< m[i].tvTuner << ' '
+				<< m[i].type << ' '
+				<< m[i].status << endl;
+		}
+	}
+	cout << "Enter the serial number of the monitor you want to buy: ";
+	cin >> id;
+	cin.ignore(1000, '\n');
+	cout << endl;
+
+		for (int i = 0; i < N; i++)
+		{
+			if (id==m[i].id)
+			{
+				flag = true;
+				break;
+			}
+		}
+	if (flag)
+	{
+		cout << "Thank you for you purchase!" << endl;
+		m[id].status = "Sold";
+	}
+	else
+	{
+		cout << "There is not an monitor with that serial number!" << endl;
+	}
+}
+
+void setDownPaymnet(Monitors m[])
+{}
+
+void showBuyMenu(Monitors m[])
+{
+	int choice;
+	do
+	{
+		cout << "1. Buy Monitor" << endl;
+		cout << "2. Set Down Payment" << endl;
+		cout << "0. Back" << endl;
+		cout << "Your choice: ";
+		cin >> choice;
+		cin.ignore(1000, '\n');
+		
+		switch (choice)
+		{
+		case 1:
+			buyMonitor(m);
+			break;
+		case 2:
+			break;
+		case 0:
+			break;
+		default:
+			cout << "There is no option corresponding to your choice!" << endl;
+			break;
+		}
+
+	} while (choice !=0);
+}
+
 
 void showMainMenu(Monitors m[])
 {
@@ -684,6 +766,7 @@ void showMainMenu(Monitors m[])
 		cout << "6. Show Monitors From File" << endl;
 		cout << "7. Inport Monitors From File" << endl;
 		cout << "8. Edit Entries" << endl;
+		cout << "9. Buy Monitors" << endl;
 		cout << "0. Exit" << endl;
 		cout << "Your choice:";
 		cin >> choice;
@@ -714,6 +797,8 @@ void showMainMenu(Monitors m[])
 			break;
 		case 8:
 			editEntry(m);
+		case 9:
+			break;
 		case 0:
 			break;
 		default:
