@@ -721,7 +721,63 @@ void buyMonitor(Monitors m[])
 }
 
 void setDownPaymnet(Monitors m[])
-{}
+{
+	string man, model;
+	int id;
+	bool flag = false;
+	float price;
+	cout << "Please enter the Manufacturer and the Model of the desired monitor: ";
+	cout << endl << "Manufacturer: "; getline(cin, man);
+	cout << endl << "Model"; getline(cin, model);
+	cout << endl;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (man == m[i].manufacturer && model == m[i].model)
+		{
+			cout << m[i].id << ' '
+				<< m[i].manufacturer << ' '
+				<< m[i].model << ' '
+				<< m[i].color << ' '
+				<< m[i].price << '$' << ' '
+				<< m[i].size << "\"" << ' '
+				<< m[i].resolution << ' '
+				<< m[i].tvTuner << ' '
+				<< m[i].type << ' '
+				<< m[i].status << endl;
+		}
+	}
+	cout << "Enter the serial number of the monitor you want to set down payment: ";
+	cin >> id;
+	cin.ignore(1000, '\n');
+	cout << endl;
+
+	for (int i = 0; i < N; i++)
+	{
+		if (id == m[i].id)
+		{
+			flag = true;
+			break;
+		}
+	}
+	if (flag)
+	{
+		do
+		{
+			cout << "Please enter the amount you want to pay beforehand(the amount can't be higher than the price of the product): ";
+			cin >> price;
+			cin.ignore(1000, '\n');
+		} while (price>m[id].price);
+
+		m[id].price -= price;
+		m[id].status = "Down payed";
+	}
+	else
+	{
+		cout << "There is not an monitor with that serial number!" << endl;
+	}
+
+}
 
 void showBuyMenu(Monitors m[])
 {
@@ -741,6 +797,7 @@ void showBuyMenu(Monitors m[])
 			buyMonitor(m);
 			break;
 		case 2:
+			setDownPaymnet(m);
 			break;
 		case 0:
 			break;
