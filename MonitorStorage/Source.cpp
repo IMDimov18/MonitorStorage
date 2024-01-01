@@ -172,7 +172,6 @@ void checkId(Monitors m[], int size)
 void enterMonitor(Monitors m[],int size)
 {
 	string temp;
-	int res;
 	int n; bool flag=false;
 	cout << "How many entries do you want to add?";
 	do
@@ -645,6 +644,7 @@ void promotionalPrice(Monitors m[], int size)
 		cout << "Enter the discount(%): ";
 		cin >> discount;
 		m[currentId].price = m[currentId].price - (m[currentId].price * (discount / 100));
+		m[currentId].status="Promotional";
 		cout << "Price with discount: " << m[currentId].price << '$' << endl;
 	}
 	else
@@ -873,6 +873,7 @@ void showMainMenu(Monitors m[], int size)
 			break;
 		case 8:
 			editEntry(m, size);
+			break;
 		case 9:
 			showBuyMenu(m, size);
 			break;
