@@ -4,7 +4,7 @@
 #include <fstream>
 #include <stdlib.h>
 using namespace std;
-const int N = 1;
+const int N = 100;
 
 struct Monitors
 {
@@ -20,13 +20,13 @@ struct Monitors
 	string status = "Selling";
 };
 
-void showMonitorsByManufacturer(Monitors m[])
+void showMonitorsByManufacturer(Monitors m[], int size)
 {
 	Monitors temp;
 
-	for (int i = 0; i < N - 1; i++)
+	for (int i = 0; i < size - 1; i++)
 	{
-		for (int j = 0; j < N - i - 1; j++)
+		for (int j = 0; j < size - i - 1; j++)
 		{
 			if (m[j].manufacturer > m[j + 1].manufacturer)
 			{
@@ -47,7 +47,7 @@ void showMonitorsByManufacturer(Monitors m[])
 		<< "TV Tuner" << ' '
 		<< "Type" << ' '
 		<< "Status" << endl;
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		cout << m[i].id << ' '
 			<< m[i].manufacturer << ' '
@@ -63,7 +63,7 @@ void showMonitorsByManufacturer(Monitors m[])
 
 }
 
-void showMonitorsBySize(Monitors m[])
+void showMonitorsBySize(Monitors m[], int size)
 {
 	Monitors tempArr[N];
 	int count = 0;
@@ -74,7 +74,7 @@ void showMonitorsBySize(Monitors m[])
 	cin >> val;
 	cin.ignore(1000, '\n');
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (m[i].size==val)
 		{
@@ -108,7 +108,7 @@ void showMonitorsBySize(Monitors m[])
 		<< "TV Tuner" << ' '
 		<< "Type" << ' '
 		<< "Status" << endl;
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <=size; i++)
 	{
 		cout << m[i].id << ' '
 			<< m[i].manufacturer << ' '
@@ -124,7 +124,7 @@ void showMonitorsBySize(Monitors m[])
 
 }
 
-void showMonitors(Monitors m[])
+void showMonitors(Monitors m[], int size)
 {
 	int choice;
 	do
@@ -139,10 +139,12 @@ void showMonitors(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			showMonitorsByManufacturer(m);
+			showMonitorsByManufacturer(m,size);
 			break;
 		case 2:
-			showMonitorsBySize(m);
+			showMonitorsBySize(m,size);
+			break;
+		case 0:
 			break;
 		default:
 			cout << "There is no option corresponding to your choice!" << endl;
@@ -153,13 +155,13 @@ void showMonitors(Monitors m[])
 	} while (choice !=0);
 }
 
-void checkId(Monitors m[])
+void checkId(Monitors m[], int size)
 {
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j < N; j++)
+		for (int j = 0; j < size; j++)
 		{
-			if (m[i].id==m[j].id)
+			if (m[i].id==m[j].id||m[j].id==0)
 			{
 				m[j].id = rand() % 100 + 1;
 			}
@@ -167,14 +169,31 @@ void checkId(Monitors m[])
 	}
 }
 
-void enterMonitor(Monitors m[])
+void enterMonitor(Monitors m[],int size)
 {
-	string temp, temp1 = "Yes";
+	string temp;
 	int res;
-	for (int i = 0; i < N; i++)
+	int n; bool flag=false;
+	cout << "How many entries do you want to add?";
+	do
+	{
+		cout << endl << "Amaount of elements: ";
+		cin >> n;
+		cin.ignore(1000, '\n');
+		if (n + (sizeof(m) / sizeof(m[0])) > N)
+		{
+			cout << "The desired amount will go over the limit with " << (n + (sizeof(m) / sizeof(m[0]))) - N << " elements!" << endl;
+		}
+		else
+		{
+			flag = true;
+		}
+	} while (!flag);
+
+	for (int i = 0; i < n; i++)
 	{
 		m[i].id = rand() % 100 + 1;
-		checkId(m);
+		checkId(m, size);
 
 		cout << endl << "Monitor's Manufacturer: ";
 		getline(cin, m[i].manufacturer);
@@ -189,20 +208,20 @@ void enterMonitor(Monitors m[])
 		cin.ignore(1000, '\n');
 		cout << endl << "Monitor's Rezolution: ";
 		getline(cin, m[i].resolution);
-		cout << "Does it have a TV Tuner?: ";
+		cout << endl << "Does it have a TV Tuner?: ";
 		getline(cin, m[i].tvTuner);
-		cout << "What is it's type?(New, Second-hand): ";
+		cout << endl << "What is it's type?(New, Second-hand): ";
 		getline(cin, m[i].type);
 
-
+		size++;
 	}
 }
 
-void ShowBiggestMonitor(Monitors m[])
+void ShowBiggestMonitor(Monitors m[], int size)
 {
 	int index = 0;
 	float bigM = m[0].size;
-	for (int i = 0; i <= N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (m[i].size > bigM)
 		{
@@ -220,7 +239,7 @@ void ShowBiggestMonitor(Monitors m[])
 		<< m[index].size << "\"" << endl;
 }
 
-void searchMonitor(Monitors m[])
+void searchMonitor(Monitors m[], int size)
 {
 	string temp;
 	cout << "Enter the brand of the monitors you want to see: ";
@@ -237,7 +256,7 @@ void searchMonitor(Monitors m[])
 		<< "Type" << ' '
 		<< "Status" << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (temp == m[i].manufacturer)
 		{
@@ -256,7 +275,7 @@ void searchMonitor(Monitors m[])
 }
 
 
-void showSearchMenu(Monitors m[])
+void showSearchMenu(Monitors m[], int size)
 {
 	int choice;
 	do
@@ -271,10 +290,10 @@ void showSearchMenu(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			ShowBiggestMonitor(m);
+			ShowBiggestMonitor(m, size);
 			break;
 		case 2:
-			searchMonitor(m);
+			searchMonitor(m, size);
 			break;
 		case 0:
 			break;
@@ -287,13 +306,13 @@ void showSearchMenu(Monitors m[])
 	} while (choice != 0);
 }
 
-void sortMonitorsByPrice(Monitors m[])
+void sortMonitorsByPrice(Monitors m[], int size)
 {
 	Monitors temp;
 
-	for (int i = 0; i < N - 1; i++)
+	for (int i = 0; i < size - 1; i++)
 	{
-		for (int j = 0; j < N - i - 1; j++)
+		for (int j = 0; j < size - i - 1; j++)
 		{
 			if (m[j].price > m[j + 1].price)
 			{
@@ -305,7 +324,7 @@ void sortMonitorsByPrice(Monitors m[])
 	}
 }
 
-void saveMonitorsInFile(Monitors m[])
+void saveMonitorsInFile(Monitors m[], int size)
 {
 	fstream fs;
 	fs.open("Monitors.txt", ios::app);
@@ -315,7 +334,7 @@ void saveMonitorsInFile(Monitors m[])
 		exit(1);
 	}
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		fs << m[i].id << ' '
 			<< m[i].manufacturer << ' '
@@ -352,7 +371,7 @@ int checkFileElements()
 	
 }
 
-void inportMonitorsFromFile(Monitors m[])
+void inportMonitorsFromFile(Monitors m[], int size)
 {
 	ifstream ifs;
 	int numberOfElements = checkFileElements();
@@ -363,7 +382,7 @@ void inportMonitorsFromFile(Monitors m[])
 		exit(1);
 	}
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		ifs.ignore(1000, '$');
 		ifs.ignore(1000, '"');
@@ -375,7 +394,7 @@ void inportMonitorsFromFile(Monitors m[])
 
 }
 
-void showMonitorsFromFile(Monitors m[])
+void showMonitorsFromFile(Monitors m[], int size)
 {
 	ifstream ifs;
 	char next;
@@ -394,7 +413,7 @@ void showMonitorsFromFile(Monitors m[])
 	ifs.close();
 }
 
-void editByMan(Monitors m[])
+void editByMan(Monitors m[], int size)
 {
 	string manTemp;
 	string modelTemp;
@@ -402,12 +421,12 @@ void editByMan(Monitors m[])
 	int currentId;
 	int choice;
 
-	cout << "Enter the manudacturer and model of the monitor you want to edit" << endl;
+	cout << "Enter the manufacturer and model of the monitor you want to edit" << endl;
 	cout << "Manudacturer: "; getline(cin, manTemp);
 	cout << endl << "Model: "; getline(cin, modelTemp);
 	cout << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (manTemp==m[i].manufacturer&&modelTemp==m[i].model)
 		{
@@ -498,7 +517,7 @@ void editByMan(Monitors m[])
 	}
 }
 
-void editBySerialNumber(Monitors m[])
+void editBySerialNumber(Monitors m[], int size)
 {
 	int id;
 	bool flag = false;
@@ -508,7 +527,7 @@ void editBySerialNumber(Monitors m[])
 	cout << "Enter the serial number of the monitor you want to edit" << endl;
 	cin >> id;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (id==m[i].id)
 		{
@@ -599,7 +618,7 @@ void editBySerialNumber(Monitors m[])
 	}
 }
 
-void promotionalPrice(Monitors m[])
+void promotionalPrice(Monitors m[], int size)
 {
 	int id;
 	bool flag = false;
@@ -611,7 +630,7 @@ void promotionalPrice(Monitors m[])
 	cin.ignore(1000, '\n');
 	cout << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (id==m[i].id)
 		{
@@ -634,7 +653,7 @@ void promotionalPrice(Monitors m[])
 	}
 }
 
-void editEntry(Monitors m[])
+void editEntry(Monitors m[], int size)
 {
 
 	int choice;
@@ -652,13 +671,13 @@ void editEntry(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			editByMan(m);
+			editByMan(m, size);
 			break;
 		case 2:
-			editBySerialNumber(m);
+			editBySerialNumber(m, size);
 			break;
 		case 3:
-			promotionalPrice(m);
+			promotionalPrice(m, size);
 			break;
 		case 0:
 			break;
@@ -670,7 +689,7 @@ void editEntry(Monitors m[])
 	} while (choice !=0);
 }
 
-void buyMonitor(Monitors m[])
+void buyMonitor(Monitors m[], int size)
 {
 	string man, model;
 	int id;
@@ -680,7 +699,7 @@ void buyMonitor(Monitors m[])
 	cout << endl << "Model"; getline(cin, model);
 	cout << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (man==m[i].manufacturer && model==m[i].model)
 		{
@@ -701,7 +720,7 @@ void buyMonitor(Monitors m[])
 	cin.ignore(1000, '\n');
 	cout << endl;
 
-		for (int i = 0; i < N; i++)
+		for (int i = 0; i <= size; i++)
 		{
 			if (id==m[i].id)
 			{
@@ -720,7 +739,7 @@ void buyMonitor(Monitors m[])
 	}
 }
 
-void setDownPaymnet(Monitors m[])
+void setDownPaymnet(Monitors m[], int size)
 {
 	string man, model;
 	int id;
@@ -731,7 +750,7 @@ void setDownPaymnet(Monitors m[])
 	cout << endl << "Model"; getline(cin, model);
 	cout << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (man == m[i].manufacturer && model == m[i].model)
 		{
@@ -752,7 +771,7 @@ void setDownPaymnet(Monitors m[])
 	cin.ignore(1000, '\n');
 	cout << endl;
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		if (id == m[i].id)
 		{
@@ -779,7 +798,7 @@ void setDownPaymnet(Monitors m[])
 
 }
 
-void showBuyMenu(Monitors m[])
+void showBuyMenu(Monitors m[],int size)
 {
 	int choice;
 	do
@@ -794,10 +813,10 @@ void showBuyMenu(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			buyMonitor(m);
+			buyMonitor(m, size);
 			break;
 		case 2:
-			setDownPaymnet(m);
+			setDownPaymnet(m, size);
 			break;
 		case 0:
 			break;
@@ -810,7 +829,7 @@ void showBuyMenu(Monitors m[])
 }
 
 
-void showMainMenu(Monitors m[])
+void showMainMenu(Monitors m[], int size)
 {
 	int choice;
 	do
@@ -832,30 +851,30 @@ void showMainMenu(Monitors m[])
 		switch (choice)
 		{
 		case 1:
-			enterMonitor(m);
+			enterMonitor(m,size);
 			break;
 		case 2:
-			showMonitors(m);
+			showMonitors(m,size);
 			break;
 		case 3:
-			showSearchMenu(m);
+			showSearchMenu(m,size);
 			break;
 		case 4:
-			sortMonitorsByPrice(m);
+			sortMonitorsByPrice(m, size);
 			break;
 		case 5:
-			saveMonitorsInFile(m);
+			saveMonitorsInFile(m, size);
 			break;
 		case 6:
-			showMonitorsFromFile(m);
+			showMonitorsFromFile(m, size);
 			break;
 		case 7:
-			inportMonitorsFromFile(m);
+			inportMonitorsFromFile(m, size);
 			break;
 		case 8:
-			editEntry(m);
+			editEntry(m, size);
 		case 9:
-			showBuyMenu(m);
+			showBuyMenu(m, size);
 			break;
 		case 0:
 			break;
@@ -871,7 +890,8 @@ void showMainMenu(Monitors m[])
 
 int main()
 {
+	int arrSize = 0;
 	Monitors m[N];
-	showMainMenu(m);
+	showMainMenu(m,arrSize);
 	return 0;
 }
