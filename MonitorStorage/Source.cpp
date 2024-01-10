@@ -90,7 +90,7 @@ void showMonitorsBySize(Monitors m[])
 	{
 		if (m[i].price == 0 || m[i].size == 0)
 		{
-			continue;
+			break;
 		}
 		else
 		{
@@ -108,6 +108,10 @@ void showMonitorsBySize(Monitors m[])
 	{
 		for (int j = 0; j < count - i - 1; j++)
 		{
+			if (m[j+1].price == 0 || m[j+1].size == 0)
+			{
+				break;
+			}
 			if (tempArr[j].manufacturer > tempArr[j + 1].manufacturer)
 			{
 				temp = tempArr[j];
@@ -131,18 +135,21 @@ void showMonitorsBySize(Monitors m[])
 	{
 		if (m[i].price == 0 || m[i].size == 0)
 		{
-			continue;
+			break;
 		}
-		cout << tempArr[i].id << ' '
-			<< tempArr[i].manufacturer << ' '
-			<< tempArr[i].model << ' '
-			<< tempArr[i].color << ' '
-			<< tempArr[i].price << '$' << ' '
-			<< tempArr[i].size << "\"" << ' '
-			<< tempArr[i].resolution << ' '
-			<< tempArr[i].tvTuner << ' '
-			<< tempArr[i].type << ' '
-			<< tempArr[i].status << endl;
+		else
+		{
+			cout << tempArr[i].id << ' '
+				<< tempArr[i].manufacturer << ' '
+				<< tempArr[i].model << ' '
+				<< tempArr[i].color << ' '
+				<< tempArr[i].price << '$' << ' '
+				<< tempArr[i].size << "\"" << ' '
+				<< tempArr[i].resolution << ' '
+				<< tempArr[i].tvTuner << ' '
+				<< tempArr[i].type << ' '
+				<< tempArr[i].status << endl;
+		}
 	}
 
 }
@@ -265,19 +272,9 @@ void ShowBiggestMonitor(Monitors m[])
 void searchMonitor(Monitors m[])
 {
 	string temp;
+	bool flag = false;
 	cout << "Enter the brand of the monitors you want to see: ";
 	getline(cin, temp);
-
-	cout << endl << "Id" << ' '
-		<< "Manufacturer" << ' '
-		<< "Model" << ' '
-		<< "Color" << ' '
-		<< "Price" << ' '
-		<< "Display" << ' '
-		<< "Resolution" << ' '
-		<< "TV Tuner" << ' '
-		<< "Type" << ' '
-		<< "Status" << endl;
 
 	for (int i = 0; i < MAX_ELEMENTS; i++)
 	{
@@ -297,7 +294,13 @@ void searchMonitor(Monitors m[])
 				<< m[i].tvTuner << ' '
 				<< m[i].type << ' '
 				<< m[i].status << endl;
+			flag = true;
 		}
+	}
+	if (!flag)
+	{
+		cout << "There is not an item with that brand in the list!" << endl;
+	
 	}
 }
 
@@ -543,6 +546,7 @@ void editByMan(Monitors m[])
 				getline(cin, m[currentId].status);
 				break;
 			case 0:
+				cout<<"Data succesfully edited!" << endl;
 				break;
 			default:
 				cout << "There is no option corresponding to your choice!" << endl;
@@ -565,8 +569,9 @@ void editBySerialNumber(Monitors m[])
 	int currentId;
 	int choice;
 
-	cout << "Enter the serial number of the monitor you want to edit" << endl;
+	cout << "Enter the serial number of the monitor you want to edit: ";
 	cin >> id;
+	cout << endl;
 
 	for (int i = 0; i < MAX_ELEMENTS; i++)
 	{
@@ -648,6 +653,7 @@ void editBySerialNumber(Monitors m[])
 				getline(cin, m[currentId].status);
 				break;
 			case 0:
+				cout<<"Data succesfully edited!"<<endl;
 				break;
 			default:
 				cout << "There is no option corresponding to your choice!" << endl;
@@ -656,6 +662,7 @@ void editBySerialNumber(Monitors m[])
 
 
 		} while (choice != 0);
+
 	}
 	else
 	{
@@ -668,7 +675,7 @@ void promotionalPrice(Monitors m[])
 	int id;
 	bool flag = false;
 	int currentId;
-	float discount, float temp;
+	float discount, temp;
 
 	cout << "Enter the serial number of the desired monitor: ";
 	cin >> id;
@@ -695,6 +702,7 @@ void promotionalPrice(Monitors m[])
 		cin >> discount;
 		temp = m[currentId].price;
 		m[currentId].price = m[currentId].price - (m[currentId].price * (discount / 100));
+		m[currentId].status = "Promotional";
 		cout << endl << "Price before discount: " << temp << '$' << endl;
 		cout << "Price with discount: " << m[currentId].price << '$' << endl;
 	}
@@ -801,6 +809,7 @@ void setDownPaymnet(Monitors m[])
 	string man, model;
 	int id;
 	bool flag = false;
+	bool flag2 = false;
 	float price;
 	int currentId;
 	cout << "Please enter the Manufacturer and the Model of the desired monitor: ";
@@ -826,35 +835,43 @@ void setDownPaymnet(Monitors m[])
 				<< m[i].tvTuner << ' '
 				<< m[i].type << ' '
 				<< m[i].status << endl;
+			flag2 = true;
 		}
 	}
-	cout << "Enter the serial number of the monitor you want to set down payment: ";
-	cin >> id;
-	cin.ignore(1000, '\n');
-	cout << endl;
-
-	for (int i = 0; i < MAX_ELEMENTS; i++)
+	if (flag2)
 	{
-		if (id == m[i].id)
-		{
-			flag = true;
-			currentId = i;
-			break;
-		}
-	}
-	if (flag) {
-		do {
-			cout << "Please enter the amount you want to pay beforehand(the amount can't be higher than the price of the product): ";
-			cin >> price;
-			cin.ignore(1000, '\n');
-		} while (price > m[currentId].price);
+		cout << "Enter the serial number of the monitor you want to set down payment: ";
+		cin >> id;
+		cin.ignore(1000, '\n');
+		cout << endl;
 
-		m[currentId].price -= price;
-		m[currentId].status = "Down payed";
+		for (int i = 0; i < MAX_ELEMENTS; i++)
+		{
+			if (id == m[i].id)
+			{
+				flag = true;
+				currentId = i;
+				break;
+			}
+		}
+		if (flag) {
+			do {
+				cout << "Please enter the amount you want to pay beforehand(the amount can't be higher than the price of the product): ";
+				cin >> price;
+				cin.ignore(1000, '\n');
+			} while (price > m[currentId].price);
+
+			m[currentId].price -= price;
+			m[currentId].status = "Down-payed";
+		}
+		else
+		{
+			cout << "There is not an monitor with that serial number!" << endl;
+		}
 	}
 	else
 	{
-		cout << "There is not an monitor with that serial number!" << endl;
+		cout << "There is not an monitor with that manufacturer and model!" << endl;
 	}
 
 }
@@ -905,7 +922,7 @@ void showMainMenu(Monitors m[])
 		cout << "8. Edit Entries" << endl;
 		cout << "9. Buy Monitors" << endl;
 		cout << "0. Exit" << endl;
-		cout << "Your choice:";
+		cout << "Your choice: ";
 		cin >> choice;
 		cin.ignore(1000, '\n');
 
