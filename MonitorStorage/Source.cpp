@@ -310,6 +310,32 @@ void sortMonitorsByPrice(Monitors m[]) {
         }
     }
 
+    cout << "Id" << ' ' <<
+        "Manufacturer" << ' ' <<
+        "Model" << ' ' <<
+        "Color" << ' ' <<
+        "Price" << ' ' <<
+        "Display" << ' ' <<
+        "Resolution" << ' ' <<
+        "TV Tuner" << ' ' <<
+        "Type" << ' ' <<
+        "Status" << endl;
+    for (int i = 0; i < MAX_ELEMENTS; i++) {
+        if (m[i].price == 0 || m[i].size == 0) {
+            continue;
+        }
+        cout << m[i].id << ' ' <<
+            m[i].manufacturer << ' ' <<
+            m[i].model << ' ' <<
+            m[i].color << ' ' <<
+            m[i].price << '$' << ' ' <<
+            m[i].size << "\"" << ' ' <<
+            m[i].resolution << ' ' <<
+            m[i].tvTuner << ' ' <<
+            m[i].type << ' ' <<
+            m[i].status << endl;
+    }
+
     cout << endl << "Monitors sorted by price!" << endl;
 }
 
